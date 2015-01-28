@@ -1,0 +1,23 @@
+.vote {
+    text-decoration: none;
+    float: left;
+}
+
+.comments {
+   padding-top: 20px;
+}
+
+.date {
+    float:left;
+    padding: 0 10px;
+}
+
+.reply {
+    float: right;
+}
+
+.replies {
+    min-height: 20px;
+    padding: 19px 0 19px 19px;
+    margin-bottom: 20px;
+}
