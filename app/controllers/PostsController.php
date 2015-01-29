@@ -45,9 +45,7 @@ class PostsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-        $post = Post::find($id);
-//        echo "<pre>";
-//        print_r($post->comments); die();
+        $post = Post::with(['comments'])->find($id);
         return View::make('posts.show', compact('post'));
 	}
 

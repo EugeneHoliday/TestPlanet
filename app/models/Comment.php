@@ -1,7 +1,7 @@
 <?php
 
 class Comment extends \Eloquent {
-	protected $fillable = [];
+	protected $fillable = ['content', 'commentable_type', 'commentable_id'];
 
     public function commentable()
     {
@@ -16,5 +16,12 @@ class Comment extends \Eloquent {
     public function replies()
     {
         return $this->morphMany('Comment', 'commentable');
+    }
+
+    public function delete()
+    {
+        $this->replies()->delete();
+
+        return parent::delete();
     }
 }

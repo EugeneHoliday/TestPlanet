@@ -8,7 +8,10 @@
                     <p>{{{$post->description}}}</p>
                     <div class="sub">
                         <p>{{$post->comments->count()}} comments</p>
-                        @include('partials._voting')
+                        <div class="vote">
+                            <a href="{{route('posts.like', [$post->id])}}"  data-method="post" rel="nofollow"><i class="fa fa-plus"></i></a>
+                            <a href="{{route('posts.dislike', [$post->id])}}"  data-method="post" rel="nofollow"><i class="fa fa-minus"></i></a>
+                        </div>
                         <a href="{{route('posts.delete', [$post->id])}}" data-method="delete" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
                     </div>
 

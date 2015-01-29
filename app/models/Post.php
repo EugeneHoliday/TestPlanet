@@ -12,4 +12,11 @@ class Post extends \Eloquent {
     {
         return $this->morphMany('Like', 'likeable');
     }
+
+    public function delete()
+    {
+        $this->comments()->delete();
+        
+        return parent::delete();
+    }
 }

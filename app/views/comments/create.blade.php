@@ -1,7 +1,7 @@
 {{ Form::open( [
     'route' => 'comments.create',
     'method' => 'post',
-    'id' => 'form-add-comment'
+    'id' => 'form-add-comment',
 ] ) }}
 
 

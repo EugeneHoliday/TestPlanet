@@ -31,7 +31,7 @@
 
     <div class="header">
         <ul class="nav nav-pills pull-right">
-            <li class="active"><a id="top">Posts</a></li>
+            <li class="active"><a id="top" href="{{route('home')}}">Posts</a></li>
             <li><a id="new-article">Add post</a></li>
         </ul>
         <h3 class="text-muted">Test Project</h3>

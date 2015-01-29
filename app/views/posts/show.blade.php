@@ -2,7 +2,7 @@
 
 
 @section('content')
-<div class="post commentable">
+<div class="post commentable" data-id="{{$post->id}}" data-type="Post">
     <h1>{{$post->title}}</h1>
     <p>{{$post->description}}</p>
     <span class="reply"><a href="#post">Reply <i class="fa fa-reply"></i></a></span>
@@ -19,11 +19,15 @@
 @section('script')
     <script type="text/javascript">
         jQuery( document ).ready( function( $ ) {
-
+            $( '#form-add-comment').hide();
             $( '.reply a' ).on( 'click', function() {
 //                $( '#form-add-comment' ).append('')
+                var form = $( '#form-add-comment');
+                form.find('textarea').each(function(){
+                    $(this).val('');
+                });
                 var comment = $(this).closest('.commentable');
-                comment.append($( '#form-add-comment' ));
+                form.hide().appendTo(comment).slideDown(300);
             });
 
             $( '#form-add-comment' ).on( 'submit', function() {
@@ -31,17 +35,28 @@
                 //.....
                 //show some spinner etc to indicate operation in progress
                 //.....
-
+                var form = $(this);
+                var parent = $(this).closest('.commentable');
                 $.post(
                     $( this ).prop( 'action' ),
                     {
                         "_token": $( this ).find( 'input[name=_token]' ).val(),
                         "comment_content": $( '#comment_content' ).val(),
+                        "parent_id": parent.data('id'),
+                        "parent_type": parent.data('type')
+
                     },
-                    function( data ) {
-                        //do something with data/response returned by server
-                    },
-                    'json'
+                    function( html ) {
+                        console.log(html);
+                        form.hide();
+                        var replies = parent.children('div.replies');
+                        if(replies.length === 0){
+                            replies = $('<div class="replies"></div>   ')
+                                    .appendTo(parent);
+                        }
+                        console.log(parent.html());
+                        parent.children('.replies').append(html);
+                    }
                 );
 
                 //.....

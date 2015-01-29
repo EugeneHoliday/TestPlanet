@@ -15,25 +15,28 @@ class CommentsController extends \BaseController {
 	 */
     public function create() {
 
-        if ( Session::token() !== Input::get( '_token' ) ) {
-            return Response::json( array(
-                'msg' => 'Unauthorized attempt'
-            ) );
-        }
+//        if ( Session::token() !== Input::get( '_token' ) ) {
+//            return Response::json( array(
+//                'msg' => 'Unauthorized attempt'
+//            ) );
+//        }
 
-        $content = Input::get( 'content' );
+        $comment_content = Input::get( 'comment_content' );
         $parent_id = Input::get( 'parent_id' );
         $parent_type = Input::get( 'parent_type' );
 
-        //.....
-        //validate data
-        //and then store it in DB
-        //.....
+        $comment = Comment::create([
+            'content' => $comment_content,
+            'commentable_id' => $parent_id,
+            'commentable_type' => $parent_type,
+        ]);
 
         $response = array(
             'status' => 'success',
             'msg' => 'Comment added successfully',
         );
+
+        return View::make('posts.comment', compact('comment'));
 
         return Response::json( $response );
     }
