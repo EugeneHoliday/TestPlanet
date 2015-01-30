@@ -16,7 +16,7 @@
     padding: 0 10px;
 }
 
-.reply {
+.reply, .delete {
     float: right;
 }
 
@@ -24,4 +24,19 @@
     min-height: 20px;
     padding: 19px 0 0 19px;
     margin-bottom: 0px;
+}
+
+#content {
+    margin-top: 70px;
+}
+
+.post{
+    padding: 5px;
+    overflow: hidden;
+    margin-top: 15px;
+    /*border-top: 1px solid #acdbdb;*/
+}
+
+.rate {
+    background-color: #2ecc71;
 }

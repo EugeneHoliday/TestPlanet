@@ -22,7 +22,7 @@ class PostsController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('posts.create');
 	}
 
 	/**
@@ -33,7 +33,10 @@ class PostsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+        $post = Post::create([
+
+        ]);
+		return Redirect::route('route.show', $post->id);
 	}
 
 	/**

@@ -1,21 +1,18 @@
 <?php
 
-class Comment extends \Eloquent {
-	protected $fillable = ['content', 'commentable_type', 'commentable_id'];
+use \Illuminate\Database\Eloquent\Collection;
 
-    public function commentable()
-    {
-        return $this->morphTo();
-    }
+class Comment extends \Eloquent {
+
+    public $parents = ['Post'];
+
+    protected $with = ['likes', 'replies'];
+
+	protected $fillable = ['content', 'commentable_type', 'commentable_id', 'parent_id'];
 
     public function likes()
     {
         return $this->morphMany('Like', 'likeable');
-    }
-
-    public function replies()
-    {
-        return $this->morphMany('Comment', 'commentable');
     }
 
     public function delete()
@@ -23,5 +20,24 @@ class Comment extends \Eloquent {
         $this->replies()->delete();
 
         return parent::delete();
+    }
+
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
+
+    public function parentComment(){
+        return $this->belongsTo('Comment', 'parent_id');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany('Comment','parent_id', 'id');
+    }
+
+    public function getRatingAttribute()
+    {
+        return $this->likes()->sum('value');
     }
 }

@@ -32,7 +32,7 @@
     <div class="header">
         <ul class="nav nav-pills pull-right">
             <li class="active"><a id="top" href="{{route('home')}}">Posts</a></li>
-            <li><a id="new-article">Add post</a></li>
+            <li><a href="{{route('posts.create')}}" id="new-article">Add post</a></li>
         </ul>
         <h3 class="text-muted">Test Project</h3>
     </div>

@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder {
         // Truncate all tables, except migrations
         $tables = [
             'posts',
-            'comments'
+            'comments',
+            'likes'
         ];
         foreach ($tables as $table) {
             DB::table($table)->truncate();

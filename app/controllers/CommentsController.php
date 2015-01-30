@@ -13,32 +13,9 @@ class CommentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-    public function create() {
-
-//        if ( Session::token() !== Input::get( '_token' ) ) {
-//            return Response::json( array(
-//                'msg' => 'Unauthorized attempt'
-//            ) );
-//        }
-
-        $comment_content = Input::get( 'comment_content' );
-        $parent_id = Input::get( 'parent_id' );
-        $parent_type = Input::get( 'parent_type' );
-
-        $comment = Comment::create([
-            'content' => $comment_content,
-            'commentable_id' => $parent_id,
-            'commentable_type' => $parent_type,
-        ]);
-
-        $response = array(
-            'status' => 'success',
-            'msg' => 'Comment added successfully',
-        );
-
-        return View::make('posts.comment', compact('comment'));
-
-        return Response::json( $response );
+    public function create()
+    {
+        //
     }
 	/**
 	 * Store a newly created resource in storage.
@@ -48,33 +25,28 @@ class CommentsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
-	}
+        if ( Session::token() !== Input::get( '_token' ) ) {
+            return Response::json( array(
+                'msg' => 'Unauthorized attempt'
+            ) );
+        }
 
 
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /comments/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
+        $comment = Comment::create(
+            Input::all()
+        );
+
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Comment added successfully',
+        );
+
+        return View::make('posts.comment', compact('comment'));
+
+        //return Response::json( $response );
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 * PUT /comments/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
 
 	/**
 	 * Remove the specified resource from storage.
@@ -85,7 +57,8 @@ class CommentsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+        Comment::find($id)->delete();
+        return Redirect::back();
 	}
 
 }
