@@ -1,6 +1,6 @@
 ### Install
 
-Copy .env.exmaple.php to .env.local.php in root folder
+Copy env.example.php to .env.local.php in root folder
 
 ```php
 composer install
