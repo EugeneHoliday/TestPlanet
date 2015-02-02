@@ -3,7 +3,7 @@
 class Post extends \Eloquent {
 	protected $fillable = ['title', 'description'];
 
-    protected $with = ['comments', 'likes'];
+    protected $with = ['comments'];
 
     public function countLikes(){
 
@@ -27,17 +27,25 @@ class Post extends \Eloquent {
     public function delete()
     {
         $this->comments()->delete();
-        
+        $this->likes()->delete();
         return parent::delete();
     }
 
-    public function getRatingAttribute()
-    {
-        return $this->likes()->sum('value');
-    }
+//    public function getRatingAttribute()
+//    {
+//        return $this->likes()->sum('value');
+//    }
 
     public function getCommentsRatingAttribute()
     {
+        $rating = 0;
+        foreach($this->comments as $comment){
+            $rating += $comment->rating;
+        }
+        return $rating;
+    }
 
+    public function getOverallRatingAttribute(){
+        return $this->rating + $this->commentsRating;
     }
 }

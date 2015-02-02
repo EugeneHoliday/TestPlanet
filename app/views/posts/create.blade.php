@@ -16,6 +16,7 @@
             'placeholder' => 'Title',
             'class' => 'form-control',
             'required' => true,
+            'maxlength' => '255'
         ] ) }}
     </div>
 
@@ -24,6 +25,7 @@
             'placeholder' => 'Enter description',
             'class' => 'form-control',
             'required' => true,
+            'maxlength' => '5000'
         ] ) }}
     </div>
 

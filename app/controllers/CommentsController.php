@@ -2,21 +2,23 @@
 
 class CommentsController extends \BaseController {
 
-    public function like()
+    public function like($id, $sign)
     {
+        if (Auth::guest())
+            $value = Like::DEFAULTWEIGHT;
+        $like = new Like([
+            'value' => Like::voteValue($sign, $value)
+        ]);
 
+        $comment = Comment::findOrFail($id);
+        $comment->likes()->save($like);
+        $response = array(
+            'status' => 'success',
+        );
+
+        return Response::json( $response );
     }
 
-	/**
-	 * Show the form for creating a new resource.
-	 * GET /comments/create
-	 *
-	 * @return Response
-	 */
-    public function create()
-    {
-        //
-    }
 	/**
 	 * Store a newly created resource in storage.
 	 * POST /comments
@@ -31,20 +33,24 @@ class CommentsController extends \BaseController {
             ) );
         }
 
+        $input = Input::all();
 
-        $comment = Comment::create(
-            Input::all()
-        );
+        $rules = [
+            'content' => 'required|max:5000'
+        ];
 
+        $validator = Validator::make($input, $rules);
 
-        $response = array(
-            'status' => 'success',
-            'msg' => 'Comment added successfully',
-        );
+        if($validator->passes()){
+            $comment = Comment::create($input);
+            return View::make('posts.comment', compact('comment'));
+        }
 
-        return View::make('posts.comment', compact('comment'));
+        $response = [
+            'status' => 'failed'
+        ];
 
-        //return Response::json( $response );
+        return Response::json( $response );
 	}
 
 

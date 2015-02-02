@@ -10,6 +10,7 @@
         'placeholder' => 'Enter comment',
         'class' => 'form-control',
         'required' => true,
+        'maxlength' => '5000'
     ] ) }}
 </div>
 

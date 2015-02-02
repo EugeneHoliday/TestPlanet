@@ -2,13 +2,18 @@
 
 use \Illuminate\Database\Eloquent\Collection;
 
-class Comment extends \Eloquent {
+class Comment extends \Eloquent
+{
+
+    protected $attributes = array(
+        'rating' => '0'
+    );
 
     public $parents = ['Post'];
 
-    protected $with = ['likes', 'replies'];
+    protected $with = ['replies'];
 
-	protected $fillable = ['content', 'commentable_type', 'commentable_id', 'parent_id'];
+    protected $fillable = ['content', 'commentable_type', 'commentable_id', 'parent_id'];
 
     public function likes()
     {
@@ -17,8 +22,7 @@ class Comment extends \Eloquent {
 
     public function delete()
     {
-        $this->replies()->delete();
-
+        $this->likes()->delete();
         return parent::delete();
     }
 
@@ -27,17 +31,14 @@ class Comment extends \Eloquent {
         return $this->morphTo();
     }
 
-    public function parentComment(){
+    public function parentComment()
+    {
         return $this->belongsTo('Comment', 'parent_id');
     }
 
     public function replies()
     {
-        return $this->hasMany('Comment','parent_id', 'id');
+        return $this->hasMany('Comment', 'parent_id', 'id');
     }
 
-    public function getRatingAttribute()
-    {
-        return $this->likes()->sum('value');
-    }
 }
